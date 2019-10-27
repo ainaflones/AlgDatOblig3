@@ -127,15 +127,18 @@ public class ObligSBinTre<T> implements Beholder<T>
       while(temp != null){
 
 
-          int cmp = comp.compare(temp.verdi, verdi);
+          int cmp = comp.compare(verdi, temp.verdi);
 
           if(cmp < 0 ){
               temp = temp.venstre;
           }
-          else if(cmp == 0){
-              antallForekomster++;
+          else{
+              if(cmp == 0){
+                  antallForekomster++;
+              }
+              temp = temp.høyre;
           }
-          temp = temp.høyre;
+
 
       }
       return antallForekomster;
@@ -153,6 +156,7 @@ public class ObligSBinTre<T> implements Beholder<T>
   {
     throw new UnsupportedOperationException("Ikke kodet ennå!");
   }
+
   
   private static <T> Node<T> nesteInorden(Node<T> p)
   {
@@ -165,16 +169,12 @@ public class ObligSBinTre<T> implements Beholder<T>
           while (temp.venstre != null) {
               temp = temp.venstre;
           }
+
       }
         else{
-
-            temp = p.forelder;
-            Node<T> temp2 = p;
-
-            while(temp2 != temp.venstre){
-                temp2 = temp;
-                temp = temp.forelder;
-            }
+            temp=p;
+            while(temp.forelder.venstre != temp )
+            temp = temp.forelder;
         }
 
     return temp;
@@ -184,6 +184,11 @@ public class ObligSBinTre<T> implements Beholder<T>
   public String toString()
   {
     StringJoiner tekst = new StringJoiner(", ", "[", "]");
+
+    if(antall == 1){
+        tekst.add(rot.verdi.toString());
+        return tekst.toString();
+    }
 
     if(!tom()){
 
@@ -205,11 +210,20 @@ public class ObligSBinTre<T> implements Beholder<T>
   public String omvendtString()
   {
 
-      if(tom()) throw new NoSuchElementException("Dette treet er tomt!");
+      //TODO problematisk
+      //Oppgave 4
 
       Node<T> p = rot;
       Stakk<Node<T>> tabellStakk = new TabellStakk<>();
       StringJoiner tekst = new StringJoiner(", ","[","]");
+
+      if(antall == 0){
+          return tekst.toString();
+      }
+      if(antall == 1){
+          tekst.add(rot.verdi.toString());
+          return tekst.toString();
+      }
 
       while(p.høyre != null){
           p = p.høyre;
