@@ -40,13 +40,47 @@ public class ObligSBinTre<T> implements Beholder<T>
     antall = 0;
     comp = c;
   }
-  
+
+  //Oppgave 1
   @Override
   public boolean leggInn(T verdi)
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    Objects.requireNonNull(verdi, "Ulovlig med nullverdier!");
+
+    Node<T> p = rot, q = null;
+    int cmp = 0;
+
+    while (p != null)
+    {
+      q = p;
+      cmp = comp.compare(verdi,p.verdi);
+      p = cmp < 0 ? p.venstre : p.høyre;
+    }
+
+    p = new Node<T>(verdi, null);
+
+    if (q == null) rot = p;
+    else if (cmp < 0) {
+      q.venstre = p;
+      p.forelder = q;
+    }
+    else {
+      q.høyre = p;
+      p.forelder = q;
+    }
+
+    antall++;
+    return true;
   }
-  
+
+  //TODO: delete main method before submitting
+  public static void main(String[] args) {
+    Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
+    ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
+    for (int verdi : a) tre.leggInn(verdi);
+    System.out.println(tre.antall());
+  }
+
   @Override
   public boolean inneholder(T verdi)
   {
