@@ -1,4 +1,4 @@
-public interface Kø<T>              // eng: Queue
+public interface Kõ<T>              // eng: Queue
 {
     public boolean leggInn(T verdi); // eng: offer/add/enqueue    inn bakerst
     public T kikk();                 // eng: peek/element/front   den første

@@ -1,13 +1,13 @@
 import java.util.NoSuchElementException;
 
-public class TabellKø<T> implements Kø<T>
+public class TabellKõ<T> implements Kõ<T>
 {
     private T[] a;      // en tabell
     private int fra;    // posisjonen til den første i køen
     private int til;    // posisjonen til første ledige plass
 
     @SuppressWarnings("unchecked")      // pga. konverteringen: Object[] -> T[]
-    public TabellKø(int lengde)
+    public TabellKõ(int lengde)
     {
         if (lengde < 1)
             throw new IllegalArgumentException("Må ha positiv lengde!");
@@ -17,7 +17,7 @@ public class TabellKø<T> implements Kø<T>
         fra = til = 0;    // a[fra:til> er tom
     }
 
-    public TabellKø()   // standardkonstruktør
+    public TabellKõ()   // standardkonstruktør
     {
         this(8);
     }
