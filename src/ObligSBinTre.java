@@ -85,6 +85,8 @@ public class ObligSBinTre<T> implements Beholder<T>
   public int antall(T verdi){
 
       //Oppgave 2
+      //TODO: Hva om p er den siste i inorder?
+      
       int antallForekomster = 0;
       Node<T> temp = rot;
 
@@ -126,17 +128,24 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       if(p.høyre != null) {
           temp = p.høyre;
-          while (temp.venstre != null) { //TODO: usikker
+          while (temp.venstre != null) {
               temp = temp.venstre;
           }
       }
         else{
-            temp=p.forelder;
+
+            temp = p.forelder;
+            Node<T> temp2 = p;
+
+            while(temp2 != temp.venstre){
+                temp2 = temp;
+                temp = temp.forelder;
+            }
         }
 
     return temp;
   }
-  
+
   @Override
   public String toString()
   {
@@ -145,6 +154,10 @@ public class ObligSBinTre<T> implements Beholder<T>
     if(!tom()){
 
         Node<T> p = rot;
+        while(p.venstre != null){
+            p = p.venstre;
+        }
+
         while(p != null){
             tekst.add(p.verdi.toString());
             p = nesteInorden(p);
@@ -157,7 +170,33 @@ public class ObligSBinTre<T> implements Beholder<T>
   
   public String omvendtString()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+      if(tom()) throw new NoSuchElementException("Dette treet er tomt!");
+
+      Node<T> p = rot;
+      Stakk<Node<T>> tabellStakk = new TabellStakk<>();
+      StringJoiner tekst = new StringJoiner(", ","[","]");
+
+      while(p.høyre != null){
+          p = p.høyre;
+      }
+
+      if(p != null) {
+
+          for(p=p.høyre; p.venstre!= null; p=p.venstre){
+              tabellStakk.leggInn(p);
+          }
+
+
+      }
+      else if(!tabellStakk.tom()) {
+
+       p=tabellStakk.taUt();
+       tekst.add(p.verdi.toString());
+
+      }
+     
+    return tekst.toString();
   }
   
   public String høyreGren()
