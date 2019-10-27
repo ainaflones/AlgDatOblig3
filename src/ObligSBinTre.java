@@ -79,6 +79,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
     System.out.println(tre.antall());
+    System.out.print(tre);
   }
 
   @Override
@@ -136,7 +137,9 @@ public class ObligSBinTre<T> implements Beholder<T>
               if(cmp == 0){
                   antallForekomster++;
               }
-              temp = temp.høyre;
+         else {
+                  temp = temp.høyre;
+              }
           }
 
 
@@ -186,8 +189,8 @@ public class ObligSBinTre<T> implements Beholder<T>
     StringJoiner tekst = new StringJoiner(", ", "[", "]");
 
     if(antall == 1){
-        tekst.add(rot.verdi.toString());
-        return tekst.toString();
+
+        return "["+rot.verdi+"]";
     }
 
     if(!tom()){
