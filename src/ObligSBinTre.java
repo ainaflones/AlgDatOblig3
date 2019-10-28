@@ -36,9 +36,9 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   public ObligSBinTre(Comparator<? super T> c)    // konstruktør
   {
-    rot = null;
-    antall = 0;
-    comp = c;
+    this.rot = null;
+    this.antall = 0;
+    this.comp = c;
   }
 
   //Oppgave 1
@@ -78,8 +78,17 @@ public class ObligSBinTre<T> implements Beholder<T>
     Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
-    System.out.println(tre.antall());
+
     System.out.print(tre);
+    Integer[] b = {4, 7, 2, 9};
+    ObligSBinTre<Integer> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
+    for(int verdi : b) tre2.leggInn(verdi);
+    System.out.print(tre2);
+
+
+
+
+
   }
 
   @Override
@@ -137,9 +146,9 @@ public class ObligSBinTre<T> implements Beholder<T>
               if(cmp == 0){
                   antallForekomster++;
               }
-         else {
+
                   temp = temp.høyre;
-              }
+
           }
 
 
@@ -165,27 +174,48 @@ public class ObligSBinTre<T> implements Beholder<T>
   {
       //Oppgave 3
 
-      Node<T> temp = null;
+      Node<T> q = null;
+      Node<T> r= null;
+
 
       if(p.høyre != null) {
-          temp = p.høyre;
-          while (temp.venstre != null) {
-              temp = temp.venstre;
+          q = p.høyre;
+          while (q.venstre != null) {
+              q = q.venstre;
           }
 
       }
-        else{
-            temp=p;
-            while(temp.forelder.venstre != temp )
-            temp = temp.forelder;
+       else{
+            r=p;
+            if(p.forelder == null){
+                return null;
+            }
+            else {
+                q = p.forelder;
+            }
+            while(r != q.venstre){
+                r = q;
+                if(q.forelder==null){
+                    return null;
+                }
+                else q = q.forelder;
+            }
+
         }
 
-    return temp;
+
+    return q;
+
+
+
+
+
   }
 
   @Override
   public String toString()
   {
+
     StringJoiner tekst = new StringJoiner(", ", "[", "]");
 
     if(antall == 1){
@@ -193,9 +223,11 @@ public class ObligSBinTre<T> implements Beholder<T>
         return "["+rot.verdi+"]";
     }
 
-    if(!tom()){
-
+    if(antall == 0){
+        return "[]";
+    }
         Node<T> p = rot;
+        
         while(p.venstre != null){
             p = p.venstre;
         }
@@ -203,17 +235,18 @@ public class ObligSBinTre<T> implements Beholder<T>
         while(p != null){
             tekst.add(p.verdi.toString());
             p = nesteInorden(p);
-        }
 
     }
 
+
+
     return tekst.toString();
+
   }
   
   public String omvendtString()
   {
 
-      //TODO problematisk
       //Oppgave 4
 
       Node<T> p = rot;
