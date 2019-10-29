@@ -75,7 +75,7 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   //TODO: delete main method before submitting
   public static void main(String[] args) {
-      Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
+     // Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
     Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
@@ -85,7 +85,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     ObligSBinTre<Integer> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
     for(int verdi : b) tre2.leggInn(verdi);
     System.out.print(tre2);
-*/
+
       ObligSBinTre<Character> tre3 = new ObligSBinTre<>(Comparator.naturalOrder());
       char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
       for (char c : verdier) tre3.leggInn(c);
