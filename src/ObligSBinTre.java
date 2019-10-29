@@ -413,7 +413,11 @@ public class ObligSBinTre<T> implements Beholder<T>
 
               return (1 + ((l > r) ? l : r));
           }
+          else{
+              return 0;
+          }
       }
+
   }
 
   public String[] grener()
