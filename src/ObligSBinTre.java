@@ -129,17 +129,30 @@ public class ObligSBinTre<T> implements Beholder<T>
       if (p.venstre == null || p.høyre == null)
       {
           Node<T> b = p.venstre != null ? p.venstre : p.høyre;
-          if (p == rot) {
-              rot = b;
+          if (b != null) { //
+              if (p == rot) {
+                  rot = b;
+              }
+              else if (p == q.venstre) {
+                  q.venstre = b;
+                  b.forelder = q;
+              }
+              else {
+                  q.høyre = b;
+                  b.forelder = q;
+              }
+          } else {
+              if (p == rot) {
+                  rot = b;
+              }
+              else if (p == q.venstre) {
+                  q.venstre = b;
+              }
+              else {
+                  q.høyre = b;
+              }
           }
-          else if (p == q.venstre) {
-              q.venstre = b;
-              b.forelder = q;
-          }
-          else {
-              q.høyre = b;
-              b.forelder = q;
-          }
+
       }
       else
       {
@@ -154,21 +167,36 @@ public class ObligSBinTre<T> implements Beholder<T>
 
           if (s != p) {
               s.venstre = r.høyre;
-              r.høyre.forelder = s;
+              if (r.høyre != null) r.høyre.forelder = s;
           }
           else {
               s.høyre = r.høyre;
-              r.høyre.forelder = s;
+              if (r.høyre != null) r.høyre.forelder = s;
           }
       }
 
       antall--;
       return true;
   }
-  
-  public int fjernAlle(T verdi)
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+  //Oppgave 5
+  public int fjernAlle(T verdi) {
+      if (verdi == null) return 0;
+      if (tom()) return 0;
+
+      int antallFjernet = 0;
+      boolean alleErFjernet = false;
+
+      while (!alleErFjernet) {
+          if (fjern(verdi)) {
+              antallFjernet++;
+              continue;
+          }
+          else {
+              alleErFjernet = true;
+          }
+      }
+      return antallFjernet;
   }
   
   @Override
@@ -274,7 +302,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
 
     Node<T> p = rot;
-        
+
     while(p.venstre != null){
             p = p.venstre;
      }
