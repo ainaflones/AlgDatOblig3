@@ -180,8 +180,7 @@ public class ObligSBinTre<T> implements Beholder<T>
   public int antall(T verdi){
 
       //Oppgave 2
-      //TODO: Hva om p er den siste i inorder?
-      
+
       int antallForekomster = 0;
       Node<T> temp = rot;
 
@@ -257,10 +256,6 @@ public class ObligSBinTre<T> implements Beholder<T>
 
     return q;
 
-
-
-
-
   }
 
   @Override
@@ -277,13 +272,14 @@ public class ObligSBinTre<T> implements Beholder<T>
     if(antall == 0){
         return "[]";
     }
-        Node<T> p = rot;
-        
-        while(p.venstre != null){
-            p = p.venstre;
-        }
 
-        while(p != null){
+    Node<T> p = rot;
+        
+    while(p.venstre != null){
+            p = p.venstre;
+     }
+
+     while(p != null){
             tekst.add(p.verdi.toString());
             p = nesteInorden(p);
 
@@ -307,29 +303,40 @@ public class ObligSBinTre<T> implements Beholder<T>
       if(antall == 0){
           return tekst.toString();
       }
-      if(antall == 1){
-          tekst.add(rot.verdi.toString());
-          return tekst.toString();
-      }
+
 
       while(p.høyre != null){
-          p = p.høyre;
+          tabellStakk.leggInn(p);
+          p=p.høyre;
+
       }
 
-      if(p != null) {
+      tabellStakk.leggInn(p);
 
-          for(p=p.høyre; p.venstre!= null; p=p.venstre){
-              tabellStakk.leggInn(p);
+      while(true){
+
+          if(p.venstre != null) {
+              for(p = p.venstre; p.høyre == null; p=p.venstre){
+                  tabellStakk.leggInn(p);
+
+                  if(p.venstre == null){
+                      break;
+                  }
+              }
+
           }
 
+          else if(!tabellStakk.tom()) {
+
+              p= tabellStakk.taUt();
+              tekst.add(p.verdi.toString());
+
+          }
+
+          else break;
 
       }
-      else if(!tabellStakk.tom()) {
 
-       p=tabellStakk.taUt();
-       tekst.add(p.verdi.toString());
-
-      }
      
     return tekst.toString();
   }
