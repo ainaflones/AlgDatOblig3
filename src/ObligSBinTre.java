@@ -75,20 +75,14 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   //TODO: delete main method before submitting
   public static void main(String[] args) {
-    Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
+    Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
-
-    System.out.print(tre);
-    Integer[] b = {4, 7, 2, 9};
-    ObligSBinTre<Integer> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
-    for(int verdi : b) tre2.leggInn(verdi);
-    System.out.print(tre2);
-
-
-
-
-
+    System.out.println(tre.fjernAlle(4));
+    tre.fjernAlle(7);
+    tre.fjern(8);
+    System.out.println(tre.antall());
+    System.out.println(tre + " " + tre.omvendtString());
   }
 
   @Override
@@ -152,7 +146,6 @@ public class ObligSBinTre<T> implements Beholder<T>
                   q.høyre = b;
               }
           }
-
       }
       else
       {
@@ -174,7 +167,6 @@ public class ObligSBinTre<T> implements Beholder<T>
               if (r.høyre != null) r.høyre.forelder = s;
           }
       }
-
       antall--;
       return true;
   }
@@ -185,16 +177,9 @@ public class ObligSBinTre<T> implements Beholder<T>
       if (tom()) return 0;
 
       int antallFjernet = 0;
-      boolean alleErFjernet = false;
 
-      while (!alleErFjernet) {
-          if (fjern(verdi)) {
-              antallFjernet++;
-              continue;
-          }
-          else {
-              alleErFjernet = true;
-          }
+      while (fjern(verdi)) {
+          antallFjernet++;
       }
       return antallFjernet;
   }
@@ -240,13 +225,28 @@ public class ObligSBinTre<T> implements Beholder<T>
   {
     return antall == 0;
   }
-  
+
+  //Oppgave 5
   @Override
   public void nullstill()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+      if (!tom()) nullstill(rot);
+      rot = null;
+      antall = 0;
   }
 
+  private void nullstill(Node<T> p) {
+      if (p.venstre != null) {
+          nullstill(p.venstre);
+          p.venstre = null;
+      }
+      if (p.høyre != null) {
+          nullstill(p.høyre);
+          p.høyre = null;
+      }
+      p.verdi = null;
+      p.forelder = null;
+  }
   
   private static <T> Node<T> nesteInorden(Node<T> p)
   {
