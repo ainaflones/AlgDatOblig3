@@ -188,7 +188,7 @@ public class Oblig3Test {
                     ("Oppgave 4b: Skal ikke kaste unntak for et tomt tre!");
         }
 
-        int[][] a = {{1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {4, 2, 5, 1, 3},
+        int[][] a = {{1, 2, 3, 4, 5},{5,4,3,2,1},  {4, 2, 5, 1, 3},
                 {2, 1, 4, 3, 5}, {1, 4, 2, 5, 3}, {4, 1, 5, 3, 2}};
 
 

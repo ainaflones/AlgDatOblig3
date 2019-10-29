@@ -306,37 +306,32 @@ public class ObligSBinTre<T> implements Beholder<T>
 
 
       while(p.høyre != null){
+
           tabellStakk.leggInn(p);
           p=p.høyre;
 
       }
 
-      tabellStakk.leggInn(p);
-
       while(true){
 
+          tekst.add(p.verdi.toString());
+
           if(p.venstre != null) {
-              for(p = p.venstre; p.høyre == null; p=p.venstre){
+              for(p = p.venstre; p.høyre != null; p=p.høyre){
                   tabellStakk.leggInn(p);
 
-                  if(p.venstre == null){
-                      break;
                   }
-              }
-
           }
 
           else if(!tabellStakk.tom()) {
 
               p= tabellStakk.taUt();
-              tekst.add(p.verdi.toString());
 
           }
 
           else break;
 
       }
-
      
     return tekst.toString();
   }
