@@ -90,7 +90,7 @@ public class ObligSBinTre<T> implements Beholder<T>
       char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
       for (char c : verdier) tre3.leggInn(c);
       System.out.println(tre3.høyreGren());
-      tre3.printVei();
+      System.out.println(tre3.lengstGren());
 
 /*
 
@@ -387,8 +387,13 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       StringJoiner tekst = new StringJoiner(", ", "[","]");
 
+      if( antall == 0){
+          return "[]";
+      }
+
       Node<T> p = rot;
       tekst.add(p.verdi.toString());
+
 
       while(p != null) {
 
@@ -410,20 +415,49 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   public String lengstGren() {
 
-    /*  Node<T> p = rot;
+      Node node = rot;
+
+      if(antall == 1){
+          return "[" + rot + "]";
+      }
+
+      String[] vei = new String[1000];
+      StringJoiner tekst = new StringJoiner(", ","[","]");
+      int veilengde = 0;
+      int lengst = maxDepth(node);
+
+      rekusjonlengst(rot,vei,tekst,veilengde,lengst);
+
+      return tekst.toString();
+      }
 
 
-      printVei(rot,tekst);
 
-      return tekst.toString();*/
+      void rekusjonlengst (Node node, String [] vei, StringJoiner tekst, int veilengde,int lengstvei) {
 
-    return "null";
-  }
+          if (node == null) {
+              return;
+          }
+          vei[veilengde] = node.verdi.toString();
+          veilengde++;
+
+          if (node.venstre == null && node.høyre == null) {
+              if (veilengde == lengstvei && tekst.length()<veilengde) {
+                  for (int i = 0; i < veilengde; i++) {
+                      tekst.add(vei[i]);
+                  }
+              }
+
+              } else {
+                  rekusjonlengst(node.venstre, vei, tekst, veilengde, lengstvei);
+                  rekusjonlengst(node.høyre, vei, tekst, veilengde, lengstvei);
+              }
+
+          }
 
 
-  public int maxDepth(Node<T> rot, ArrayList<Node<T>> liste) {
+  public int maxDepth(Node<T> rot) {
 
-/**
       if (rot == null) {
           return 0;
       }
@@ -432,19 +466,16 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       } else {
 
-          int l = maxDepth(rot.venstre, liste);
-          int r = maxDepth(rot.høyre, liste);
+          int l = maxDepth(rot.venstre);
+          int r = maxDepth(rot.høyre);
 
           return (1 + ((l > r) ? l : r));
       }
-**/
-
-   return 0;
   }
 
 
 
- void printVei(){
+ public void printVei(){
 
       Node node = rot;
 
@@ -452,7 +483,7 @@ public class ObligSBinTre<T> implements Beholder<T>
      printVeiRekursjon(node,vei,0);
  }
 
- void printVeiRekursjon(Node node, String vei[], int veilengde){
+ private void printVeiRekursjon(Node node, String vei[], int veilengde){
 
      if(node == null){
          return;
@@ -470,7 +501,7 @@ public class ObligSBinTre<T> implements Beholder<T>
      }
  }
 
- void printArray(String[] ints, int len){
+ private void printArray(String[] ints, int len){
 
      StringJoiner tekst = new StringJoiner(", ", "[", "]");
 
