@@ -76,7 +76,7 @@ public class ObligSBinTre<T> implements Beholder<T>
   //TODO: delete main method before submitting
   public static void main(String[] args) {
      // Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
-    Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
+   /* Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
 
@@ -85,22 +85,23 @@ public class ObligSBinTre<T> implements Beholder<T>
     ObligSBinTre<Integer> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
     for(int verdi : b) tre2.leggInn(verdi);
     System.out.print(tre2);
-
+*/
       ObligSBinTre<Character> tre3 = new ObligSBinTre<>(Comparator.naturalOrder());
       char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
       for (char c : verdier) tre3.leggInn(c);
       System.out.println(tre3.høyreGren());
-      System.out.println(tre3.lengstGren());
+      tre3.printVei();
 
-
-
+/*
 
     System.out.println(tre.fjernAlle(4));
     tre.fjernAlle(7);
     tre.fjern(8);
     System.out.println(tre.antall());
     System.out.println(tre + " " + tre.omvendtString());
+    */
   }
+
 
   @Override
   public boolean inneholder(T verdi)
@@ -409,55 +410,79 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   public String lengstGren() {
 
-      Node<T> p = rot;
-
-      StringJoiner tekst = new StringJoiner(", ", "[", "]");
-      ArrayList<Node<T>> maxDydbeVenstre = new ArrayList<>();
-      ArrayList<Node<T>> maxDybdeHøyre = new ArrayList<>();
-
-      if(maxDepth(rot.høyre,maxDybdeHøyre)<= maxDepth(rot.venstre,maxDydbeVenstre)){
-          for(Node<T> i: maxDybdeHøyre)
-              tekst.add(i.verdi.toString());
-      }
-      else {
-          for(Node<T> i : maxDydbeVenstre)
-              tekst.add(i.verdi.toString());
-      }
-
-      tekst.add(rot.verdi.toString());
+    /*  Node<T> p = rot;
 
 
-      return tekst.toString();
+      printVei(rot,tekst);
 
+      return tekst.toString();*/
 
+    return "null";
   }
 
-  public int maxDepth(Node<T> rot,ArrayList<Node<T>> tekst){
 
-      if(rot == null){
+  public int maxDepth(Node<T> rot, ArrayList<Node<T>> liste) {
+
+/**
+      if (rot == null) {
           return 0;
       }
-
       if(rot.høyre == null && rot.venstre == null){
           return 1;
+
+      } else {
+
+          int l = maxDepth(rot.venstre, liste);
+          int r = maxDepth(rot.høyre, liste);
+
+          return (1 + ((l > r) ? l : r));
       }
+**/
 
-      else{
-
-          int l= maxDepth(rot.venstre,tekst);
-          int r = maxDepth(rot.høyre,tekst);
-
-          if(l>r && rot.venstre != null && rot.høyre != null) {
-              tekst.add(rot.venstre);
-
-              return (1 + ((l > r) ? l : r));
-          }
-          else{
-              return 0;
-          }
-      }
-
+   return 0;
   }
+
+
+
+ void printVei(){
+
+      Node node = rot;
+
+     String [] vei = new String[1000];
+     printVeiRekursjon(node,vei,0);
+ }
+
+ void printVeiRekursjon(Node node, String vei[], int veilengde){
+
+     if(node == null){
+         return;
+     }
+
+     vei[veilengde] = node.verdi.toString();
+     veilengde++;
+
+     if(node.venstre == null && node.høyre == null){
+         printArray(vei,veilengde);
+     }
+     else{
+         printVeiRekursjon(node.venstre, vei,veilengde);
+         printVeiRekursjon(node.høyre, vei, veilengde);
+     }
+ }
+
+ void printArray(String[] ints, int len){
+
+     StringJoiner tekst = new StringJoiner(", ", "[", "]");
+
+     int i;
+     for(i = 0; i<len; i++){
+         tekst.add(ints[i]);
+     }
+
+     System.out.println(tekst.toString());
+
+
+ }
 
   public String[] grener()
   {
