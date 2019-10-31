@@ -75,17 +75,20 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   //TODO: delete main method before submitting
   public static void main(String[] args) {
-     // Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
-   /* Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
+
+      // Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
+    Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
 
+    /*
     System.out.print(tre);
     Integer[] b = {4, 7, 2, 9};
     ObligSBinTre<Integer> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
     for(int verdi : b) tre2.leggInn(verdi);
     System.out.print(tre2);
 */
+   /*
       ObligSBinTre<Character> tre3 = new ObligSBinTre<>(Comparator.naturalOrder());
       char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
       for (char c : verdier) tre3.leggInn(c);
@@ -515,9 +518,46 @@ public class ObligSBinTre<T> implements Beholder<T>
 
  }
 
+  //Oppgave 7
   public String[] grener()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+      if (tom()) return new String[0];
+
+      String[] vei = new String[1000];
+      Stakk<String> stakk = new TabellStakk<>();
+
+      grener(rot, vei, stakk, 0);
+
+      String[] grener = new String[stakk.antall()];
+      for (int i = grener.length - 1; i >= 0; i--) {
+          grener[i] = stakk.taUt();
+      }
+      return grener;
+  }
+
+  private void grener(Node<T> p, String[] vei, Stakk<String> grenerStakk, int dybde) {
+      if (p == null) return;
+
+      vei[dybde] = p.verdi.toString();
+      dybde++;
+
+      if (p.venstre == null && p.høyre == null) {
+          grenerStakk.leggInn(arrayToString(vei, dybde));
+      }
+      else {
+          grener(p.venstre, vei, grenerStakk, dybde);
+          grener(p.høyre, vei, grenerStakk, dybde);
+      }
+  }
+
+  private String arrayToString(String[] verdier, int lengde) {
+      StringJoiner tekst = new StringJoiner(", ", "[", "]");
+
+      int i;
+      for(i = 0; i < lengde; i++){
+          tekst.add(verdier[i]);
+      }
+      return tekst.toString();
   }
   
   public String bladnodeverdier()
