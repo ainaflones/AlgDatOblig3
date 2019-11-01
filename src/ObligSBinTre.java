@@ -76,33 +76,54 @@ public class ObligSBinTre<T> implements Beholder<T>
   //TODO: delete main method before submitting
   public static void main(String[] args) {
 
+      /*
       // Integer[] a = {4, 7, 2, 9, 5, 10, 8, 1, 3, 6};
     Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6, 1};
     ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
     for (int verdi : a) tre.leggInn(verdi);
 
-    /*
+
     System.out.print(tre);
     Integer[] b = {4, 7, 2, 9};
     ObligSBinTre<Integer> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
     for(int verdi : b) tre2.leggInn(verdi);
     System.out.print(tre2);
+
 */
-   /*
+    //Tekster høyre gren og lengste gren.
       ObligSBinTre<Character> tre3 = new ObligSBinTre<>(Comparator.naturalOrder());
       char[] verdier = "IATBHJCRSOFELKGDMPQN".toCharArray();
       for (char c : verdier) tre3.leggInn(c);
       System.out.println(tre3.høyreGren());
       System.out.println(tre3.lengstGren());
-
 /*
+      //Tester bladNoder
+      System.out.println(tre3.bladnodeverdier());
+
+
+
+      //Tester fjernmetoder
 
     System.out.println(tre.fjernAlle(4));
     tre.fjernAlle(7);
     tre.fjern(8);
     System.out.println(tre.antall());
     System.out.println(tre + " " + tre.omvendtString());
-    */
+
+
+      //Tester String i preOrden
+
+      int[] a = {4,7,2,9,4,10,8,7,4,6};
+
+      ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
+
+      for (int verdi : a) tre.leggInn(verdi);
+
+      */
+
+      System.out.println(tre3.postString());
+
+
   }
 
 
@@ -311,6 +332,8 @@ public class ObligSBinTre<T> implements Beholder<T>
   public String toString()
   {
 
+      //Oppgave 3
+
     StringJoiner tekst = new StringJoiner(", ", "[", "]");
 
     if(antall == 1){
@@ -384,7 +407,8 @@ public class ObligSBinTre<T> implements Beholder<T>
      
     return tekst.toString();
   }
-  
+
+  //Oppgave 6
   public String høyreGren()
   {
 
@@ -427,16 +451,16 @@ public class ObligSBinTre<T> implements Beholder<T>
       String[] vei = new String[1000];
       StringJoiner tekst = new StringJoiner(", ","[","]");
       int veilengde = 0;
-      int lengst = maxDepth(node);
+      int lengst = maksDybde(node);
 
-      rekusjonlengst(rot,vei,tekst,veilengde,lengst);
+      rekusjonLengsteVei(rot,vei,tekst,veilengde,lengst);
 
       return tekst.toString();
       }
 
 
 
-      void rekusjonlengst (Node node, String [] vei, StringJoiner tekst, int veilengde,int lengstvei) {
+      void rekusjonLengsteVei (Node node, String [] vei, StringJoiner tekst, int veilengde,int lengstvei) {
 
           if (node == null) {
               return;
@@ -452,14 +476,14 @@ public class ObligSBinTre<T> implements Beholder<T>
               }
 
               } else {
-                  rekusjonlengst(node.venstre, vei, tekst, veilengde, lengstvei);
-                  rekusjonlengst(node.høyre, vei, tekst, veilengde, lengstvei);
+                  rekusjonLengsteVei(node.venstre, vei, tekst, veilengde, lengstvei);
+                  rekusjonLengsteVei(node.høyre, vei, tekst, veilengde, lengstvei);
               }
 
           }
 
 
-  public int maxDepth(Node<T> rot) {
+  public int maksDybde(Node<T> rot) {
 
       if (rot == null) {
           return 0;
@@ -469,8 +493,8 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       } else {
 
-          int l = maxDepth(rot.venstre);
-          int r = maxDepth(rot.høyre);
+          int l = maksDybde(rot.venstre);
+          int r = maksDybde(rot.høyre);
 
           return (1 + ((l > r) ? l : r));
       }
@@ -478,45 +502,6 @@ public class ObligSBinTre<T> implements Beholder<T>
 
 
 
- public void printVei(){
-
-      Node node = rot;
-
-     String [] vei = new String[1000];
-     printVeiRekursjon(node,vei,0);
- }
-
- private void printVeiRekursjon(Node node, String vei[], int veilengde){
-
-     if(node == null){
-         return;
-     }
-
-     vei[veilengde] = node.verdi.toString();
-     veilengde++;
-
-     if(node.venstre == null && node.høyre == null){
-         printArray(vei,veilengde);
-     }
-     else{
-         printVeiRekursjon(node.venstre, vei,veilengde);
-         printVeiRekursjon(node.høyre, vei, veilengde);
-     }
- }
-
- private void printArray(String[] ints, int len){
-
-     StringJoiner tekst = new StringJoiner(", ", "[", "]");
-
-     int i;
-     for(i = 0; i<len; i++){
-         tekst.add(ints[i]);
-     }
-
-     System.out.println(tekst.toString());
-
-
- }
 
   //Oppgave 7
   public String[] grener()
@@ -562,12 +547,74 @@ public class ObligSBinTre<T> implements Beholder<T>
   
   public String bladnodeverdier()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+      // Oppgave 8a)
+    Node<T> node = rot;
+    StringJoiner tekst = new StringJoiner(", ","[","]");
+
+    finnBladNoder(node,tekst);
+
+    return tekst.toString();
+
+  }
+
+  private void finnBladNoder(Node node, StringJoiner tekst){
+
+      //Opppgave 8a)
+
+      if(node == null){
+          return;
+      }
+
+      if(node.høyre == null && node.venstre == null){
+          tekst.add(node.verdi.toString());
+      }
+
+      finnBladNoder(node.venstre,tekst);
+      finnBladNoder(node.høyre,tekst);
+
+
   }
   
   public String postString()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+      //Oppgave 8b)
+
+      if(antall == 0){
+          return "[]";
+      }
+
+
+      StringJoiner tekst = new StringJoiner(", ", "[","]");
+      Node<T> node = rot;
+      TabellStakk<Node> stakk = new TabellStakk<>();
+      TabellStakk<Node> ut = new TabellStakk();
+      stakk.leggInn(rot);
+
+      //Postorden: Venstre, Høyre, Node
+
+      while(!stakk.tom()){
+
+          node = stakk.taUt();
+          ut.leggInn(node);
+
+          if(node.venstre != null){
+              stakk.leggInn(node.venstre);
+          }
+
+          if(node.høyre != null){
+              stakk.leggInn(node.høyre);
+          }
+
+      }
+
+
+    while(!ut.tom()){
+        tekst.add(ut.taUt().verdi.toString());
+    }
+
+      return tekst.toString();
+
   }
   
   @Override
