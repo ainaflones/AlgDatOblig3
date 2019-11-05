@@ -634,8 +634,13 @@ public class ObligSBinTre<T> implements Beholder<T>
         if (iteratorendringer != endringer)
             throw new ConcurrentModificationException("Treet er endret!");
 
-
-
+        if(q != rot){
+            if(q == q.forelder.venstre){
+                q.forelder.venstre = null;
+            } else if(q == q.forelder.høyre){
+                q.forelder.høyre = null;
+            }
+        }
 
         removeOK = false;
 
