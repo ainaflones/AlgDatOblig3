@@ -1,5 +1,14 @@
 ////////////////// ObligSBinTre /////////////////////////////////
 
+
+/**
+ *
+ * Aina Flønes, S305075
+ * Wei-Ting Kao, S334005
+ * Wai Shing Hung, S331376
+ *
+ */
+
 import java.util.*;
 
 public class ObligSBinTre<T> implements Beholder<T>
@@ -389,6 +398,8 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   }
 
+  //Oppgave 6
+
   public String lengstGren() {
 
       Node node = rot;
@@ -507,9 +518,10 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   }
 
+    //Opppgave 8a)
   private void finnBladNoder(Node node, StringJoiner tekst){
 
-      //Opppgave 8a)
+
 
       if(node == null){
           return;
@@ -524,10 +536,12 @@ public class ObligSBinTre<T> implements Beholder<T>
 
 
   }
-  
+
+    //Oppgave 8b)
+
   public String postString()
   {
-      //Oppgave 8b)
+
 
       if(antall == 0){
           return "[]";
