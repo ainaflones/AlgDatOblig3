@@ -614,7 +614,9 @@ public class ObligSBinTre<T> implements Beholder<T>
             throw new NoSuchElementException("Det er ikke flere elementer igjen i listen");
         }
 
+        q = p;
         T bladnodeverdi = bladnoder.taUt().verdi;
+        removeOK = true;
 
         if (!bladnoder.tom()) {
             p = bladnoder.kikk();
@@ -627,7 +629,20 @@ public class ObligSBinTre<T> implements Beholder<T>
     @Override
     public void remove()
     {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (q == null) throw new IllegalStateException("Fjerning er ulovlig!");
+
+        if (iteratorendringer != endringer)
+            throw new ConcurrentModificationException("Treet er endret!");
+
+
+
+
+        removeOK = false;
+
+        q = null;
+        iteratorendringer++;
+        endringer++;
+        antall--;
     }
 
   } // BladnodeIterator
